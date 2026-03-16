@@ -74,7 +74,7 @@ React Router
 
 Axios
 
-Bootstrap / Tailwind CSS
+Tailwind CSS
 
 Backend
 
@@ -95,46 +95,6 @@ Cookies
 Payment
 
 Stripe API
-
-📂 Project Structure
-mern-ecommerce
-│
-├── backend
-│   ├── config
-│   │   └── database.js
-│   │
-│   ├── controllers
-│   │   ├── authController.js
-│   │   ├── productController.js
-│   │   └── orderController.js
-│   │
-│   ├── models
-│   │   ├── userModel.js
-│   │   ├── productModel.js
-│   │   └── orderModel.js
-│   │
-│   ├── routes
-│   │   ├── authRoutes.js
-│   │   ├── productRoutes.js
-│   │   └── orderRoutes.js
-│   │
-│   └── server.js
-│
-├── frontend
-│   ├── src
-│   │   ├── components
-│   │   ├── pages
-│   │   ├── redux
-│   │   └── App.jsx
-│
-└── README.md
-⚙️ Installation Guide
-1️⃣ Clone the Repository
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
-cd mern-ecommerce
-2️⃣ Backend Setup
-cd backend
-npm install
 
 Create .env file:
 
