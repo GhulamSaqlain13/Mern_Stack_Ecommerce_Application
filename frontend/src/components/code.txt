@@ -1,0 +1,882 @@
+{/* Products Grid */}
+          <Grid container spacing={4} mt={3}>
+            {products.map((product, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+               
+              </Grid>
+            ))}
+          </Grid>
+
+
+
+
+          ///full
+
+          import React from "react";
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  IconButton,
+  Button,
+  Rating,
+  Chip,
+  Container,
+} from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
+const products = [
+  {
+    title: "Breed Dry Dog Food",
+    price: 100,
+    image: "/pro.png",
+    rating: 4,
+    reviews: 35,
+  },
+  {
+    title: "CANON EOS DSLR Camera",
+    price: 360,
+    image: "/cam.png",
+    rating: 5,
+    reviews: 95,
+  },
+  {
+    title: "ASUS FHD Gaming Laptop",
+    price: 700,
+    image: "https://via.placeholder.com/200",
+    rating: 4,
+    reviews: 325,
+  },
+  {
+    title: "Curology Product Set",
+    price: 500,
+    image: "https://via.placeholder.com/200",
+    rating: 4,
+    reviews: 145,
+  },
+];
+
+const ProductCard = () => {
+  return (
+    <Box sx={{ bgcolor: "#fff", py: 8 }}>
+      <Container maxWidth={"xl"}>
+        <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
+          {/* Section Header */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box
+              sx={{
+                width: 15,
+                height: 30,
+                bgcolor: "#DB4444",
+                borderRadius: 1,
+              }}
+            />
+            <Typography sx={{ color: "#DB4444", fontWeight: 600 }}>
+              Our Products
+            </Typography>
+          </Box>
+
+          {/* Title + Arrows */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mt: 2,
+            }}
+          >
+            <Typography variant="h5" fontWeight={700}>
+              Explore Our Products
+            </Typography>
+
+            <Box>
+              <IconButton sx={{ bgcolor: "#eee", mr: 1 }}>
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+              <IconButton sx={{ bgcolor: "#eee" }}>
+                <ArrowForwardIosIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Box>
+
+          {/* Products Grid */}
+          <Grid container spacing={4} mt={3}>
+            {products.map((product, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card
+                  sx={{
+                    boxShadow: "none",
+                    borderRadius: 2,
+                    minWidth: 270,
+                    bgcolor: "#fff",
+                    "&:hover": {
+                      // boxShadow: 1,
+                    },
+                  }}
+                >
+                  {/* Image Section */}
+                  <Box
+                    sx={{
+                      position: "relative",
+                      bgcolor: "#f2f2f2",
+                      padding: "10px",
+                    }}
+                  >
+                    {/* Icons */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        right: 8,
+                        top: 8,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 1,
+                      }}
+                    >
+                      <IconButton size="small" sx={{ bgcolor: "#fff" }}>
+                        <FavoriteBorderIcon fontSize="small" />
+                      </IconButton>
+                      {/* <IconButton size="small" sx={{ bgcolor: "#fff" }}>
+                      <VisibilityOutlinedIcon fontSize="small" />
+                    </IconButton> */}
+                    </Box>
+
+                    <CardMedia
+                      component="img"
+                      image={product.image}
+                      alt={product.title}
+                      sx={{
+                        height: 200,
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Box>
+
+                  {/* Content */}
+                  <CardContent sx={{ px: 0 }}>
+                    <Typography fontSize={14} fontWeight={600}>
+                      {product.title}
+                    </Typography>
+
+                    <Typography
+                      sx={{ color: "#DB4444", fontWeight: 600, mt: 1 }}
+                    >
+                      Rs.{product.price}
+                    </Typography>
+
+                    <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+                      <Rating value={product.rating} readOnly size="small" />
+                      <Typography fontSize={12} sx={{ ml: 1 }}>
+                        ({product.reviews})
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* View All Button */}
+          <Box sx={{ textAlign: "center", mt: 6 }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#DB4444",
+                px: 4,
+                py: 1.2,
+                borderRadius: 1,
+                "&:hover": { bgcolor: "#c0392b" },
+              }}
+            >
+              View All Products
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
+
+export default ProductCard;
+
+
+
+
+
+
+
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Grid,
+  IconButton,
+  Divider,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductDetails } from "../app/slices/productSlice";
+import { useParams } from "react-router-dom";
+import Loader from "../components/Loader";
+
+const ProductDetail = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const { productDetail, loading, error } = useSelector(
+    (state) => state.products
+  );
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    dispatch(getProductDetails(id));
+  }, [dispatch, id]);
+
+  // set first image when product loads
+  useEffect(() => {
+    if (productDetail?.images?.length > 0) {
+      setSelectedImage(productDetail.images[0].url);
+    }
+  }, [productDetail]);
+
+  if (loading || !productDetail) return <Loader />;
+
+  if (error) {
+    return <p>{error?.data?.message || error.error}</p>;
+  }
+
+  return (
+    <Container maxWidth="xl" sx={{ mt: 6 }}>
+      <Grid container spacing={6}>
+        {/* ================= LEFT IMAGES ================= */}
+        <Grid item xs={12} md={6}>
+          <Box display="flex" gap={2}>
+            {/* Thumbnails */}
+            <Box display="flex" flexDirection="column" gap={2}>
+              {productDetail?.images?.map((img, index) => (
+                <Box
+                  key={index}
+                  component="img"
+                  src={img.url}
+                  onClick={() => setSelectedImage(img.url)}
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    cursor: "pointer",
+                    borderRadius: 2,
+                    border:
+                      selectedImage === img.url
+                        ? "2px solid #DB4444"
+                        : "1px solid #eee",
+                    p: 1,
+                  }}
+                />
+              ))}
+            </Box>
+
+            {/* Main Image */}
+            <Box
+              component="img"
+              src={selectedImage || "/placeholder.png"}
+              alt={productDetail.title}
+              sx={{
+                width: "100%",
+                maxWidth: 450,
+                borderRadius: 2,
+                bgcolor: "#f5f5f5",
+                p: 4,
+              }}
+            />
+          </Box>
+        </Grid>
+
+        {/* ================= RIGHT DETAILS ================= */}
+        <Grid item xs={12} md={6}>
+          <Typography variant="h5" fontWeight={600}>
+            {productDetail.title}
+          </Typography>
+
+          <Typography color="text.secondary" mt={1}>
+            ⭐⭐⭐⭐☆ ({productDetail?.numOfReviews || 0} Reviews) | In Stock
+          </Typography>
+
+          <Typography variant="h5" mt={2} fontWeight={600}>
+            ${productDetail.price}
+          </Typography>
+
+          <Typography mt={2} color="text.secondary">
+            {productDetail.description}
+          </Typography>
+
+          <Divider sx={{ my: 3 }} />
+
+          {/* Quantity + Buy */}
+          <Box display="flex" alignItems="center" gap={2}>
+            <Box
+              display="flex"
+              alignItems="center"
+              border="1px solid #ddd"
+              borderRadius={1}
+            >
+              <IconButton
+                onClick={() => qty > 1 && setQty(qty - 1)}
+              >
+                <RemoveIcon />
+              </IconButton>
+
+              <Typography px={2}>{qty}</Typography>
+
+              <IconButton onClick={() => setQty(qty + 1)}>
+                <AddIcon />
+              </IconButton>
+            </Box>
+
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "#DB4444",
+                "&:hover": { bgcolor: "#c0392b" },
+              }}
+            >
+              Buy Now
+            </Button>
+
+            <IconButton sx={{ border: "1px solid #ddd" }}>
+              <FavoriteBorderIcon />
+            </IconButton>
+          </Box>
+
+          {/* Delivery Boxes */}
+          <Box border="1px solid #ddd" borderRadius={2} mt={4} p={2}>
+            <Typography fontWeight={600}>Free Delivery</Typography>
+            <Typography variant="body2" color="text.secondary">
+              Enter your postal code for Delivery Availability
+            </Typography>
+          </Box>
+
+          <Box border="1px solid #ddd" borderRadius={2} mt={2} p={2}>
+            <Typography fontWeight={600}>Return Delivery</Typography>
+            <Typography variant="body2" color="text.secondary">
+              Free 30 Days Delivery Returns
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
+
+export default ProductDetail;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  TextField,
+  Card,
+  CardContent,
+  Divider,
+  IconButton,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Loader from "../components/Loader";
+import { removeFromCart, updateCart, clearCart } from "../app/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+const CartPage = () => {
+  const dispatch = useDispatch();
+  const navigateTo = useNavigate();
+
+  const { cartItems, totalPrice, loading, error } = useSelector(
+    (state) => state.cart,
+  );
+  console.log(cartItems);
+  const addToCartHandler = () => {};
+
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <p></p>
+      ) : (
+        <Container maxWidth="lg" sx={{ mt: 5 }}>
+          {/* Breadcrumb */}
+          {/* <Typography variant="body2" sx={{ mb: 3 }}>
+        Home / Cart
+      </Typography> */}
+
+          {/* Table */}
+          <TableContainer component={Paper} elevation={0}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Product</TableCell>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell align="right">Subtotal</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {/* Row 1 */}
+
+                <TableRow>
+                  <TableCell>
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <IconButton color="error">
+                        <DeleteIcon />
+                      </IconButton>
+                      <img
+                        // src={cartItems?.images[0]?.url}
+                        alt="product"
+                        width="50"
+                      />
+                      {/* <Typography>{cartItems?.title}</Typography> */}
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>{totalPrice}</TableCell>
+
+                  <TableCell>
+                    <Select size="small" defaultValue={1}>
+                      <MenuItem value={1}>01</MenuItem>
+                      <MenuItem value={2}>02</MenuItem>
+                      <MenuItem value={3}>03</MenuItem>
+                    </Select>
+                  </TableCell>
+
+                  <TableCell align="right">{totalPrice}</TableCell>
+                </TableRow>
+
+                {/* Row 2 */}
+                {/* <TableRow>
+                  <TableCell>
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <IconButton color="error">
+                        <DeleteIcon />
+                      </IconButton>
+                      <img
+                        src="https://via.placeholder.com/50"
+                        alt="product"
+                        width="50"
+                      />
+                      <Typography>H1 Gamepad</Typography>
+                    </Box>
+                  </TableCell>
+
+                  <TableCell>$550</TableCell>
+
+                  <TableCell>
+                    <Select size="small" defaultValue={2}>
+                      <MenuItem value={1}>01</MenuItem>
+                      <MenuItem value={2}>02</MenuItem>
+                      <MenuItem value={3}>03</MenuItem>
+                    </Select>
+                  </TableCell>
+
+                  <TableCell align="right">$1100</TableCell>
+                </TableRow> */}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {/* Buttons Row */}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ mt: 3 }}
+          >
+            <Button variant="outlined">Return To Shop</Button>
+            {/* <Button variant="outlined">Update Cart</Button> */}
+          </Box>
+
+          {/* Bottom Section */}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            // flexWrap="wrap"
+            // sx={{ mt: 1 }}
+          >
+            {/* Coupon Section */}
+            <Box display="flex" gap={2}>
+              {/* <TextField
+            placeholder="Coupon Code"
+            size="small"
+            variant="outlined"
+          /> */}
+              {/* <Button variant="contained" color="error">
+            Apply Coupon
+          </Button> */}
+            </Box>
+
+            {/* Cart Total Card */}
+            <Card sx={{ width: 350, mt: { xs: 4, md: 0 } }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Cart Total
+                </Typography>
+
+                <Box display="flex" justifyContent="space-between">
+                  <Typography>Subtotal:</Typography>
+                  <Typography>$1750</Typography>
+                </Box>
+
+                <Divider sx={{ my: 2 }} />
+
+                <Box display="flex" justifyContent="space-between">
+                  <Typography>Shipping:</Typography>
+                  <Typography>Free</Typography>
+                </Box>
+
+                <Divider sx={{ my: 2 }} />
+
+                <Box display="flex" justifyContent="space-between">
+                  <Typography>Total:</Typography>
+                  <Typography fontWeight="bold">{totalPrice}</Typography>
+                </Box>
+
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="error"
+                  sx={{ mt: 3 }}
+                >
+                  Proceed to checkout
+                </Button>
+              </CardContent>
+            </Card>
+          </Box>
+        </Container>
+      )}
+    </>
+  );
+};
+
+export default CartPage;
+
+
+
+// Shop
+
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Grid,
+  Typography,
+  Slider,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Pagination,
+  CircularProgress,
+  Card,
+  CardContent,
+  CardMedia,
+  Paper,
+  Divider,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { filterProduct, getCategories } from "../app/slices/productSlice";
+
+const ShopPage = () => {
+  const dispatch = useDispatch();
+  const { products, categories, loading, catLoading, totalPages } = useSelector(
+    (state) => state.products,
+  );
+
+  const [filters, setFilters] = useState({
+    category: [],
+    price: [0, 10000], // Adjust max price as per your DB
+    sort: "createdAt",
+    order: "desc",
+    page: 1,
+  });
+
+  // 1. Initial Load: Fetch Categories
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
+
+  // 2. Filter Sync: Fetch Products when filters change
+  useEffect(() => {
+    const params = {
+      category: filters.category.join(","),
+      minPrice: filters.price[0],
+      maxPrice: filters.price[1],
+      sort: filters.sort,
+      order: filters.order,
+      page: filters.page,
+      limit: 9,
+    };
+    dispatch(filterProduct(params));
+  }, [filters, dispatch]);
+
+  const handleCategoryToggle = (cat) => {
+    const currentIndex = filters.category.indexOf(cat);
+    const newChecked = [...filters.category];
+    if (currentIndex === -1) newChecked.push(cat);
+    else newChecked.splice(currentIndex, 1);
+
+    setFilters({ ...filters, category: newChecked, page: 1 });
+  };
+
+  return (
+    <Box
+      sx={{ flexGrow: 1, p: 3, backgroundColor: "#f5f5f5", minHeight: "100vh" }}
+    >
+      <Grid container spacing={3}>
+        {/* --- SIDEBAR FILTERS --- */}
+        <Grid item xs={12} md={3}>
+          <Paper sx={{ p: 2, borderRadius: 2 }}>
+            <Typography variant="h6" fontWeight="bold" gutterBottom>
+              Filters
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+
+            {/* Dynamic Categories */}
+            <Typography variant="subtitle1" fontWeight="600">
+              Categories
+            </Typography>
+            {catLoading ? (
+              <CircularProgress size={20} />
+            ) : (
+              <FormGroup sx={{ mb: 3 }}>
+                {categories?.map((cat) => (
+                  <FormControlLabel
+                    key={cat}
+                    control={
+                      <Checkbox
+                        size="small"
+                        checked={filters.category.includes(cat)}
+                        onChange={() => handleCategoryToggle(cat)}
+                      />
+                    }
+                    label={cat}
+                  />
+                ))}
+              </FormGroup>
+            )}
+
+            {/* Price Slider */}
+            <Typography variant="subtitle1" fontWeight="600" gutterBottom>
+              Price Range
+            </Typography>
+            <Slider
+              value={filters.price}
+              onChange={(e, val) =>
+                setFilters({ ...filters, price: val, page: 1 })
+              }
+              valueLabelDisplay="auto"
+              min={0}
+              max={10000}
+              sx={{ color: "primary.main" }}
+            />
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}
+            >
+              <Typography variant="body2">${filters.price[0]}</Typography>
+              <Typography variant="body2">${filters.price[1]}</Typography>
+            </Box>
+
+            {/* Sorting */}
+            <FormControl fullWidth size="small">
+              <InputLabel>Sort By</InputLabel>
+              <Select
+                value={filters.sort}
+                label="Sort By"
+                onChange={(e) =>
+                  setFilters({ ...filters, sort: e.target.value, page: 1 })
+                }
+              >
+                <MenuItem value="createdAt">Newest First</MenuItem>
+                <MenuItem value="price">Price</MenuItem>
+                <MenuItem value="title">Name</MenuItem>
+              </Select>
+            </FormControl>
+          </Paper>
+        </Grid>
+
+        {/* --- PRODUCT DISPLAY AREA --- */}
+        <Grid item xs={12} md={9}>
+          <Box
+            sx={{
+              mb: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="body1" color="text.secondary">
+              Showing products
+            </Typography>
+          </Box>
+
+          {loading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              <Grid container spacing={2}>
+                {products?.length > 0 ? (
+                  products.map((item) => (
+                    <Grid item xs={12} sm={6} lg={4} key={item._id}>
+                      <Card
+                        sx={{ height: "100%", "&:hover": { boxShadow: 6 } }}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="180"
+                          image={
+                            item.images?.[0]?.url ||
+                            "https://via.placeholder.com/200"
+                          }
+                          alt={item.title}
+                        />
+                        <CardContent>
+                          <Typography
+                            variant="subtitle1"
+                            noWrap
+                            fontWeight="bold"
+                          >
+                            {item.title}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color="primary.main"
+                            fontWeight="bold"
+                          >
+                            ${item.price}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {item.category}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))
+                ) : (
+                  <Grid item xs={12} sx={{ textAlign: "center", py: 5 }}>
+                    <Typography>
+                      No products found matching these filters.
+                    </Typography>
+                  </Grid>
+                )}
+              </Grid>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <Box sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
+                  <Pagination
+                    count={totalPages}
+                    page={filters.page}
+                    onChange={(e, val) => setFilters({ ...filters, page: val })}
+                    color="primary"
+                    variant="outlined"
+                    shape="rounded"
+                  />
+                </Box>
+              )}
+            </>
+          )}
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default ShopPage;
+
+
