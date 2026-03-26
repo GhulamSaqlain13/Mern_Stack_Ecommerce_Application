@@ -36,12 +36,6 @@ const Register = () => {
     };
     console.log(formData);
 
-    // for image uploads
-    // const formData = new FormData();
-    // formData.append("name", name);
-    // formData.append("email", email);
-    // formData.append("password", password);
-
     dispatch(registerUser(formData));
   };
   useEffect(() => {
