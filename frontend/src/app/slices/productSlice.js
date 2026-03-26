@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// response	Axios ka poora response object (status, headers, data, config)
-// response.data	Backend ka payload (jo aapne res.json({...}) me bheja)
-// response.data.product	Payload me se specific product object
-
 // Create Product
 export const createProduct = createAsyncThunk(
   "product/create",
@@ -109,13 +105,7 @@ export const filterProduct = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const query = new URLSearchParams(params).toString();
-      // new URLSearchParams() JavaScript mein URL ke query
-      // string (URL mein ? ke baad ka hissa) ko handle,
-      //  manipulate, aur parse karne ke liye use hota hai.
-      //   Yeh parameters ko parhne (get), naye parameters
-      //   jorne (append), ya hatane (delete) ke liye ek aasaan
-      //    interface deta hai, jaise ?name=abc&page=1
-      const res = await axios.get(
+       const res = await axios.get(
         `http://localhost:5000/api/v1/product/filter?${query}`,
         { withCredentials: true },
       );
