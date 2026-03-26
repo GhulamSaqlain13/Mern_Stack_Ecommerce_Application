@@ -6,8 +6,6 @@ import {
   CardContent,
   CardMedia,
   IconButton,
-  // Button,
-  // Rating,
   Container,
   Paper,
 } from "@mui/material";
@@ -106,27 +104,7 @@ const AboutPage = () => {
             }}
           ></Box>
         </Box>
-        {/* <Box>
-          <Grid container spacing={4}>
-            <Grid
-              size={{ xs: 6, md: 3 }}
-              sx={{
-                border: "2px solid red",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-              }}
-            ></Grid>
-
-            <Grid
-              size={{ xs: 6, md: 3 }}
-              sx={{
-                border: "2px solid red",
-              }}
-            ></Grid>
-          </Grid>
-        </Box> */}
-
+       
         <Grid container spacing={4} mt={8}>
           {staffs.map((staff, index) => (
             <Grid size={{ xs: 12, md: 4 }} key={index}>
