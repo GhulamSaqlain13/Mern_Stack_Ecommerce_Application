@@ -5,7 +5,7 @@ import Product from "../models/productModel.js";
 
 export const createCheckoutSession = async (req, res) => {
   try {
-    // const { shippingAddress } = req.body;
+  
     const userId = req.user?._id;
     const cart = await Cart.findOne({ userId }).populate({
       path: "cartItems.productId",
@@ -18,17 +18,6 @@ export const createCheckoutSession = async (req, res) => {
     // console.log(cart.cartItems[0].productId.title);
     // console.log(JSON.stringify(cart, null, 2));
 
-    // // Debugging each cart item
-    // cart.cartItems.forEach((item, i) => {
-    //   console.log(
-    //     `Item ${i + 1}:`,
-    //     item.productId.title,
-    //     "Price:",
-    //     item.price,
-    //     "Quantity:",
-    //     item.quantity,
-    //   );
-    // });
     const lineItems = cart.cartItems.map((item) => ({
       price_data: {
         currency: "pkr",
@@ -172,77 +161,3 @@ export const getAllOrders = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// export const handleStripeWebhook = async (req, res) => {
-//   const sig = req.headers["stripe-signature"];
-//   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-//   let event;
-
-//   try {
-//     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-//   } catch (err) {
-//     console.log("Webhook signature failed:", err.message);
-//     return res.sendStatus(400);
-//   }
-
-//   if (event.type === "checkout.session.completed") {
-//     const session = event.data.object;
-//     const userId = session.metadata.userId;
-
-//     // session.customer_details will have full info here
-//     const shipping = session.customer_details?.address || {};
-//     const customerName = session.customer_details?.name || "N/A";
-//     const customerEmail = session.customer_details?.email || "N/A";
-
-//     const cart = await Cart.findOne({ userId }).populate("cartItems.productId");
-
-//     if (!cart) return;
-
-//     // Create Order
-//     const order = new Order({
-//       userId,
-//       orderItems: cart.cartItems.map((item) => ({
-//         productId: item.productId._id,
-//         quantity: item.quantity,
-//         price: item.price,
-//       })),
-//       shippingAddress: {
-//         fullName: customerName,
-//         email: customerEmail,
-//         address: shipping.line1 || "N/A",
-//         city: shipping.city || "N/A",
-//         postalCode: shipping.postal_code || "N/A",
-//         country: shipping.country || "N/A",
-//       },
-
-//       // shippingAddress: {
-//       //   fullName: session.customer_details.name || "N/A",
-//       //   phone: session.customer_details.phone || "N/A",
-//       //   address: session.customer_details.address?.line1 || "N/A",
-//       //   city: session.customer_details.address?.city || "N/A",
-//       //   postalCode: session.customer_details.address?.postal_code || "N/A",
-//       //   country: session.customer_details.address?.country || "N/A",
-//       // },
-//       totalPrice: session.amount_total / 100,
-//       paymentStatus: "paid",
-//       stripeSessionId: session.id,
-//     });
-
-//     await order.save();
-
-//     //  Reduce Stock
-//     for (const item of cart.cartItems) {
-//       await Product.findByIdAndUpdate(item.productId._id, {
-//         $inc: { stock: -item.quantity },
-//       });
-//     }
-
-//     //  Clear Cart
-//     cart.cartItems = [];
-//     cart.totalPrice = 0;
-//     await cart.save();
-//   }
-
-//   res.status(200).json({ received: true });
-// };
