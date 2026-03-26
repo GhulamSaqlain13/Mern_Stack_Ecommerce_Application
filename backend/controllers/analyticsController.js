@@ -1,93 +1,3 @@
-// import User from "../models/userModel.js";
-// import Product from "../models/productModel.js";
-// import Order from "../models/orderModel.js";
-
-// // Recent Orders
-
-// // Total Users
-// export const totalUsers = async (req, res) => {
-//   try {
-//     const usersCount = await User.countDocuments();
-
-//     res.status(200).json({
-//       success: true,
-//       usersCount,
-//     });
-//   } catch (error) {
-//     console.error(error);
-
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error while getting all user count",
-//     });
-//   }
-// };
-
-// // Total Products
-// export const totalProducts = async (req, res) => {
-//   try {
-//     const productsCount = await Product.countDocuments();
-
-//     res.status(200).json({
-//       success: true,
-//       productsCount,
-//     });
-//   } catch (error) {
-//     console.error(error);
-
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error while getting all products count",
-//     });
-//   }
-// };
-
-// // Total Orders
-// export const totalOrders = async (req, res) => {
-//   try {
-//     const ordersCount = await Order.countDocuments();
-
-//     res.status(200).json({
-//       success: true,
-//       ordersCount,
-//     });
-//   } catch (error) {
-//     console.error(error);
-
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error while getting all orders count",
-//     });
-//   }
-// };
-
-// // Total Revenue
-// export const totalRevenue = async (req, res) => {
-//   const revenueTotal = await Order.aggregate([
-//     //stage1  Filter paid orders
-//     {
-//       $match: { paymentStatus: "paid" },
-//     },
-//     //stage2  Sum totalPrice
-//     {
-//       _id: null,
-//       revenue:{$sum:"$totalPrice"},
-//     },
-//   ]);
-//   const revenue = revenueTotal[0]?.revenue || 0;
-
-// };
-
-// // Monthly Sales Chart
-// export const monthlySales= async (req, res) => {
-
-// }
-// // Only paid orders
-
-// // Extract month from createdAt
-
-// // Sum prices
-
 import User from "../models/userModel.js";
 import Product from "../models/productModel.js";
 import Order from "../models/orderModel.js";
@@ -136,7 +46,7 @@ export const getDashboardStats = async (req, res) => {
     ]);
     //TOP SELLING PRODUCTS
     // (Field, Maqsad);
-    // "_id: ""$field""",Data ko us specific field ke hisaab se tukron mein baant deta hai.
+    // "_id: "$field",Data ko us specific field ke hisaab se tukron mein baant deta hai.
     // _id: null,Poore data ko aik hi jagah jama kar deta hai (Grand Total nikalne ke liye).
     const topProducts = await Order.aggregate([
       { $unwind: "$orderItems" },
