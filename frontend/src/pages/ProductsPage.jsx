@@ -32,9 +32,7 @@ const ProductsPage = () => {
       toast.error(error);
       dispatch(clearError());
     }
-    // if (!products || products.length === 0) {
-    //   dispatch(getAllProducts());
-    // }
+   
   }, [dispatch]);
   useEffect(() => {
     dispatch(getAllProducts());
@@ -42,13 +40,7 @@ const ProductsPage = () => {
       dispatch(clearError());
     };
   }, [dispatch]);
-  // useEffect(() => {
-  //   dispatch(getAllProducts());
-
-  //   return () => {
-  //     dispatch(clearError());
-  //   };
-  // }, [dispatch]);
+  
 
   return (
     <>
