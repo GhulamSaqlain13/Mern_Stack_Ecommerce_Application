@@ -18,7 +18,7 @@ export const isAuthenticated = async (req, res, next) => {
 
 export const isAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
-    next(); // user admin hai, continue
+    next(); // if user admin then continue
   } else {
     res.status(403).json({ message: "Access denied, admin only" });
   }
