@@ -20,7 +20,7 @@ const cartSchema = new mongoose.Schema(
           default: 1,
         },
         price: {
-          type: Number, // snapshot price at the time user added
+          type: Number,// price at the time user added
           required: true,
         },
       },
