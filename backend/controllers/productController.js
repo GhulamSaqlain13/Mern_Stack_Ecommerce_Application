@@ -1,7 +1,7 @@
 import Product from "../models/productModel.js";
 import cloudinary from "cloudinary";
 import uploadToCloudinary from "../utils/cloudinary.js";
-// import Review from "../models/ReviewModel.js";
+
 
 //  Create Product Controller with Multiple Image Upload to Cloudinary
 export const createProduct = async (req, res) => {
@@ -251,65 +251,3 @@ export const getUniqueCategories = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-//review
-// export const createReview = async (req, res) => {
-//   try {
-//     const userId = req.user._id;
-//     const { productId, rating, comment } = req.body;
-
-//     // Check if product exists
-//     const product = await Product.findById(productId);
-//     if (!product) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Product not found",
-//       });
-//     }
-
-//     //  Check if user already reviewed this product
-//     const alreadyReviewed = await Review.findOne({
-//       user: userId,
-//       product: productId,
-//     });
-
-//     if (alreadyReviewed) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "You have already reviewed this product",
-//       });
-//     }
-
-//     //  Create review
-//     const review = await Review.create({
-//       user: userId,
-//       product: productId,
-//       rating,
-//       comment,
-//     });
-
-//     //  Recalculate product rating
-//     const reviews = await Review.find({ product: productId });
-
-//     const avgRating =
-//       reviews.reduce((acc, item) => acc + item.rating, 0) / reviews.length;
-
-//     //  Update product
-//     await Product.findByIdAndUpdate(productId, {
-//       ratings: avgRating,
-//       numOfReviews: reviews.length,
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Review added successfully",
-//       review,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Server Error",
-//     });
-//   }
-// };
