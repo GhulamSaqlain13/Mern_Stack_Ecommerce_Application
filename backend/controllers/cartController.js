@@ -25,7 +25,7 @@ export const addToCart = async (req, res) => {
       });
     }
 
-    //  Database wali price use karo
+    //  Database wali price 
     const price = product.price;
 
     //  Cart find karo
@@ -57,11 +57,7 @@ export const addToCart = async (req, res) => {
     await cart.save();
 
     cart = await cart.populate("cartItems.productId", "title price images");
-    // const updatedCart = await Cart.findOne({ userId }).populate(
-    //   "cartItems.productId",
-    //   "title price image"
-    // );
-
+    
     res.status(200).json({
       success: true,
       message: "Product added!",
@@ -176,32 +172,6 @@ export const clearCart = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-// export const getCart = async (req, res) => {
-//   try {
-//     const userId = req.user?._id;
-
-//     const cart = await Cart.findOne({ userId }).populate(
-//       "cartItems.productId",
-//       "title price images stock",
-//     );
-
-//     if (!cart) {
-//       cart = await Cart.create({
-//         userId,
-//         cartItems: [],
-//         totalPrice: 0,
-//       });
-//     }
-//     res.status(200).json({
-//       success: true,
-//       cart,
-//     });
-//   } catch (error) {
-//     console.log("GET CART ERROR:", error);
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// };
 
 export const getCart = async (req, res) => {
   try {
