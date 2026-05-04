@@ -151,22 +151,13 @@ export const userSlice = createSlice({
     });
 
     // get User
-    // builder.addCase(getUser.pending, (state) => {
-    //   state.loading = true;
-    // });
-    builder.addCase(getUser.fulfilled, (state, action) => {
+      builder.addCase(getUser.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload.user; // assuming backend sends { user: {...} }
       state.isAuthenticated = true;
       state.error = null;
     });
-    // builder.addCase(getUser.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.user = null;
-    //   state.isAuthenticated = false;
-    //   state.error = action.payload || null;
-    // });
-  },
+    },
 });
 
 export const { clearError } = userSlice.actions;
